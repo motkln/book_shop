@@ -28,9 +28,9 @@ pip install -r requirements.txt
 ## Создаем файл .enc
 В корне проекта и указываем переменные окружения:
 
-1.DATABASE_URL =postgresql://user:password@localhost:5432/bookshop
-2.SECRET_KEY = your_secret_key
-3.APP_PORT = any_port
-4. DEBUG = True|False
+DATABASE_URL =postgresql://user:password@localhost:5432/bookshop  
+SECRET_KEY = your_secret_key  
+APP_PORT = any_port  
+DEBUG = True|False  
 
 ## Проект готов к запуску
