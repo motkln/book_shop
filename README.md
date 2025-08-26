@@ -33,4 +33,4 @@ SECRET_KEY = your_secret_key
 APP_PORT = any_port  
 DEBUG = True|False  
 
-## **Проект готов к запуску**
+**Проект готов к запуску**
