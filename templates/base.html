@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Интернет-магазин книг{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="{{ url_for('main.main') }}">📚 BookShop</a>
+<!--      <form class="search" action="{ url_for('search') }}" method="get">-->
+      <form class="search" action="" method="get">
+<!--        <input type="text" name="q" placeholder="Поиск книг, авторов..." value="{ request.args.get('q','') }}">-->
+        <input type="text" name="q" placeholder="Поиск книг, авторов..." value="">
+        <button type="submit">Найти</button>
+      </form>
+      <nav class="top-nav">
+        <a href="{{ url_for('main.show_catalog') }}">Каталог</a>
+          <a href="{{ url_for('main.orders') }}">Мои заказы</a>
+          <a href="{{ url_for('main.cart') }}">Корзина {% if cart_count %} ({{ cart_count }}){% endif %}</a>
+
+          {% if current_user.is_authenticated %}
+          <div class="login">
+             <p>Привет, {{ current_user.name }}</p>
+              <span class="divider">|</span>
+              <a class="login" href="{{ url_for('main.logout') }}">Выйти</a>
+          </div>
+          {%else %}
+          <a href="{{ url_for('main.login') }}">Войти</a>
+          <a href="{{ url_for('main.register')}}" class="btn-primary">Регистрация</a>
+          {%endif%}
+          <!--          <a href="{ url_for('cart') }}">Корзина{% if cart_count %} ({{ cart_count }}){% endif %}</a>-->
+<!--        { endif %}-->
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>©2025 BookShop. Учебный проект.</p>
+    </div>
+  </footer>
+</body>
+</html>

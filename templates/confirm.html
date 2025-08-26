@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Подтверждение регистрации — BookShop{% endblock %}
+{% block content %}
+<h1>Подтверждение</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flashes">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+      <br/>
+    </div>
+  {% endif %}
+{% endwith %}
+<p class="muted">Мы отправили код подтверждения (имитация).</p>
+<form class="form" action="{{ url_for('main.confirm_sms') }}" method="post">
+  <label>Код <input type="text" name="code" required></label>
+  <button class="btn-primary">Подтвердить</button>
+</form>
+{% endblock %}

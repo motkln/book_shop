@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ book.title }} — BookShop{% endblock %}
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flashes">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+      <br/>
+    </div>
+  {% endif %}
+{% endwith %}
+
+<div class="book-detail">
+  <div class="book-media">
+    <img src="{{ book.cover }}" alt="Обложка {{ book.title }}">
+  </div>
+  <div class="book-info">
+    <h1>{{ book.title }}</h1>
+    <p class="muted">Автор: {{ book.author }} • Год: {{ book.year }}</p>
+    <div class="price-rating">
+      <span class="price">{{ book.price }} ₽</span>
+      <span class="rating">{{ book.rating }}★</span>
+    </div>
+    <p>{{ book.description }}</p>
+
+    <form action="{{ url_for('main.add_to_cart', id=book.id) }}" method="post">
+      <button class="btn-primary">Добавить в корзину</button>
+    </form>
+
+    {% if current_user.is_authenticated %}
+    <details class="review-box">
+      <summary>Оставить отзыв</summary>
+      <form action="{{ url_for('main.show_books', id=book.id) }}" method="post" class="review-form">
+        <label>Оценка
+          <select name="rating" required>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+          </select>
+        </label>
+        <label>Текст отзыва
+          <textarea name="text" rows="4" placeholder="Что понравилось?"></textarea>
+        </label>
+        <button class="btn">Отправить отзыв</button>
+      </form>
+    </details>
+    {% else %}
+      <p class="muted">Чтобы оставить отзыв, <a href="{{ url_for('main.login') }}">войдите</a>.</p>
+    {% endif %}
+  </div>
+</div>
+
+<section class="reviews">
+  <h2>Отзывы</h2>
+  {% for r in reviews %}
+    <div class="review">
+      <div class="review-head">
+        <strong>{{ r.user_name}}</strong>
+        <span>★ {{ r.rating }}</span>
+      </div>
+      <p>{{ r.description }}</p>
+    </div>
+  {% else %}
+    <p class="muted">Отзывов пока нет.</p>
+  {% endfor %}
+</section>
+{% endblock %}

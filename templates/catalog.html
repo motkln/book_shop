@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Каталог — BookShop{% endblock %}
+{% block content %}
+  <h1>Каталог</h1>
+  <div class="chip-list">
+    {% for g in genres %}
+      <a class="genres" href="{{ url_for('main.show_catalog',current_genre = g) }}">{{ g }}</a>
+    {% endfor %}
+  </div>
+
+
+{% if not current_genre %}
+   <p>Выберите жанр книг.</p>
+{% endif %}
+{% if books %}
+  <h3>Книги жанра: {{ genre }}</h3>
+
+  <div class="grid grid-4">
+    {% for book in books %}
+      <article class="card book-card">
+        <a href="/books/{{ book.id }}">
+          <img src="{{ book.cover }}" alt="Обложка {{ book.title }}">
+        </a>
+        <div class="card-body">
+          <h3>{{ book.title }}</h3>
+          <p class="muted">{{ book.author }}</p>
+          <div class="price-rating">
+            <span class="price">{{ book.price }} ₽</span>
+            <span class="rating">{{book.rating}} ★</span>
+          </div>
+          <a class="btn" href="/books/{{ book.id }}">Подробнее</a>
+        </div>
+      </article>
+    {% else %}
+      <p>Нет книг в этом жанре.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Навигация вперед/назад -->
+  <div class="buttons">
+    {% if start_index > 0 %}
+      <a class="btn" href="{{ url_for('main.show_catalog', current_genre=current_genre, start_index=start_index-window) }}">Назад</a>
+    {% endif %}
+    {% if start_index+window < total %}
+      <a class="btn" href="{{ url_for('main.show_catalog', current_genre=current_genre, start_index=start_index+window) }}">Вперёд</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

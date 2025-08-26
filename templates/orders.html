@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Мои заказы — BookShop{% endblock %}
+{% block content %}
+<h1>История заказов</h1>
+{% if orders %}
+  <div class="order-list">
+    {% for order in orders %}
+    <article class="card order-card">
+      <div class="order-head">
+        <div><strong>Заказ №{{ order.id }}</strong></div>
+        <div class="muted">{{ order.date }}</div>
+        <div class="status badge">{{ current_status[order.status] }}</div>
+      </div>
+      <ul class="order-items">
+        {% for it in order["items"] %}
+        <li>
+          <span>{{ it.title }}</span> — {{ it.quantity }} шт. × {{it.price }} ₽
+        </li>
+        {% endfor %}
+      </ul>
+      <p class="muted">Адрес: {{ order.address }}</p>
+      <div class="order-total">Итого: {{order.total}} <strong>₽</strong></div>
+    </article>
+    {% endfor %}
+  </div>
+{% else %}
+<p>У вас пока нет заказов.</p>
+{% endif %}
+{% endblock %}

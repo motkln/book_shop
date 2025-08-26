@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Главная — BookShop{% endblock %}
+{% block content %}
+<section>
+  <h1>ТОП‑3 книги недели</h1>
+  <div class="grid grid-3">
+    {% for book in top_books %}
+    <article class="card book-card">
+      <a href="{{ url_for('main.show_books', id=book.id) }}">
+        <img src="{{ book.cover }}" alt="Обложка { book.title }}">
+      </a>
+      <div class="card-body">
+        <h3><a href="{{ url_for('main.show_books', id=book.id) }}">{{ book.title }}</a></h3>
+        <p class="muted">{{ book.author }}</p>
+        <div class="price-rating">
+          <span class="price"> {{ book.price }} </span>
+          <span class="rating">{{ book.rating }}★</span>
+        </div>
+        <form action="{{ url_for('main.add_to_cart', id=book.id) }}" method="post">
+          <button class="btn-primary">Добавить в корзину</button>
+        </form>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+<!--  <h2>Разделы каталога</h2>-->
+  <div class="chip-list">
+<!--    { for genre in genres %}-->
+<!--      <a class="chip" href="{ url_for('genre', slug=genre.slug) }}">{ genre.name }}</a>-->
+<!--    { endfor %}-->
+  </div>
+</section>
+{% endblock %}

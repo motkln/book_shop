@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Поиск — BookShop{% endblock %}
+{% block content %}
+<h1>Результаты поиска для «{{ request.args.get('q','') }}»</h1>
+<div class="grid grid-4">
+  {% for book in books %}
+  <article class="card book-card">
+    <a href="{{ url_for('book_detail', book_id=book.id) }}">
+      <img src="{{ book.cover_url }}" alt="Обложка {{ book.title }}">
+    </a>
+    <div class="card-body">
+      <h3><a href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a></h3>
+      <p class="muted">{{ book.author }}</p>
+      <div class="price-rating">
+        <span class="price">{{ '{:,.2f}'.format(book.price).replace(',', ' ').replace('.', ',') }} ₽</span>
+        <span class="rating">★ {{ '%.1f' % (book.avg_rating or 0) }}</span>
+      </div>
+      <a class="btn" href="{{ url_for('book_detail', book_id=book.id) }}">Подробнее</a>
+    </div>
+  </article>
+  {% else %}
+  <p>Ничего не найдено.</p>
+  {% endfor %}
+</div>
+{% endblock %}

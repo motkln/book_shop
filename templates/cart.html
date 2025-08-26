@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Корзина — BookShop{% endblock %}
+{% block content %}
+<h1>Корзина</h1>
+{% if items %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Книга</th><th>Автор</th><th>Цена</th><th>Количество</th><th>Сумма</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ci in items %}
+    <tr>
+      <td class="book-cell">
+        <img class="thumb" src="{{ ci.cover }}" alt="">
+        <a href="{{ url_for('main.show_books', id=ci.book_id) }}">{{ ci.title }}</a>
+      </td>
+      <td>{{ ci.author }}</td>
+      <td>{{ ci.price }} ₽ </td>
+      <td>
+        <form action="{{ url_for('main.update_cart', item_id=ci.id) }}" method="post" class="inline">
+          <input type="number" name="quantity" min="1" value="{{ ci.quantity }}">
+          <button class="btn">Обновить</button>
+        </form>
+      </td>
+      <td>{{ ci.price }} ₽</td>
+      <td>
+        <form action="{{ url_for('main.remove_from_cart', item_id=ci.id) }}" method="post" class="inline">
+          <button class="btn-danger">Удалить</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="cart-summary">
+  <div>Итого: {{ total }}<strong> ₽</strong></div>
+  <a class="btn-primary" href="{{ url_for('main.checkout')}}">Оформить заказ</a>
+</div>
+{% else %}
+<p>Корзина пуста.</p>
+{% endif %}
+{% endblock %}
